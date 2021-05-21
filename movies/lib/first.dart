@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:dio/dio.dart';
-import 'movies_model.dart';
-import 'second.dart';
-Future <List<Results>> getMoviesFromAPI(String t) async{
-  var moviesList;
-  try { 
-  var response = await Dio().get('https://api.themoviedb.org/3/movie/$t', queryParameters: {
-  'api_key' : 'f55fbda0cb73b855629e676e54ab6d8e',
-  });
-   moviesList = response.data['results'];
-  } catch(e) {
-    print(e);
-  }
-  return (moviesList as List).map((e) => Results.fromJson(e)).toList();
- }
+import 'package:movies/now_playing.dart';
+import 'package:movies/popular.dart';
+import 'package:movies/top_rated.dart';
+import 'package:movies/upcoming_movies.dart';
+
+
 
 
 class MyHomePage extends StatefulWidget {
@@ -29,103 +19,40 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF055665),
-        title: Title(
-          color: Colors.white, child: Text(
-          "Now Playing",
-        ),
-        ),
-        leading: Icon(Icons.arrow_back),
-      ),
-      
-      body: FutureBuilder(
-        future: getMoviesFromAPI("now_playing"),
-        builder: (context,snapShot){
-          if(snapShot.connectionState == ConnectionState.waiting && !snapShot.hasData){
-            return Center(child: CircularProgressIndicator());
-          }else if(snapShot.hasError){
-            return Center(child: Text("Error"));
-          }else{
-          print(snapShot.data);
-        
-      return Column(
-        
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: ListView.builder(
-              itemCount: snapShot.data.length,
-              itemBuilder: (context, index) {
-                var movieResult = snapShot.data[index];
-                return  GestureDetector(
-                  onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => Second(movieResult)));
-                  },
-                child: Row(
-                  children: [
-                    Container(
-                       padding: new EdgeInsets.all(10),
-                        child: Image.network('https://image.tmdb.org/t/p/w200'+ movieResult.backdropPath,
-                     
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.cover,
-    
-                    ),
-                    ),
-                    
-                    
-                    Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Text(
-                                movieResult.title,
-                                style:
-                                    TextStyle(color: Colors.redAccent, fontSize: 20 , fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                movieResult.originalLanguage,
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 15 ),
-                              ),
-                            ),
-                          RatingBarIndicator(
-                            rating: movieResult.voteAverage/2,
-                            itemBuilder: (context, index) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                           ),
-                             itemCount: 5,
-                            itemSize: 20.0,
-                            direction: Axis.horizontal,
-                           ),
-                            
-                            
-                          ],
-                        ),
-                    ),
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Tab(icon: Text("NowPlaying",style:
+                                    TextStyle( fontSize: 12))),
+                Tab(icon: Text("UpComing")),
+                Tab(icon: Text("TopRate")),
+                Tab(icon: Text("Popular")),
 
-                  ],
-                ),
-              );
-              },  
-                
-              ),
-            ),
-          )
         ],
-      );
-  }
-}
-    )
+        ),
+        title: Text("Movies"),
+        leading: Icon(Icons.arrow_back),
+        actions: [Center(
+                  child: Container(
+             child: Text("Favourit"),
+             padding: new EdgeInsets.fromLTRB(0, 0, 0, 10),
+          ),
+        ), ],
+        backgroundColor: Colors.teal,
+        ),
+        body: TabBarView(children: [
+          NowPlaying(),
+          Upcoming(),
+          TopRated(),
+          Popular(),
+        ],),
+        ),
+      )
     );
+    
   }
 }

@@ -12,7 +12,7 @@ class Second extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      
+      backgroundColor: Colors.teal,
         body: Column(
 
           mainAxisAlignment: MainAxisAlignment.start,
@@ -22,12 +22,15 @@ class Second extends StatelessWidget {
               children: [
                     ClipRRect(
                         borderRadius: BorderRadius.circular(30),
+                        child : Hero(
+                         tag: p.id,
                          child: Image.network(
                          'https://image.tmdb.org/t/p/w200'+ p.backdropPath,
                           width: 430.0,
                           height: 500.0,
                           fit: BoxFit.cover,
                     ),
+                        ),
                   ),
                 GestureDetector(
                    onTap: (){
