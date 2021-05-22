@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movies/AppDataBase.dart';
 import 'package:movies/movies_model.dart';
 
 class Second extends StatelessWidget {
@@ -25,7 +26,7 @@ class Second extends StatelessWidget {
                         child : Hero(
                          tag: p.id,
                          child: Image.network(
-                         'https://image.tmdb.org/t/p/w200'+ p.backdropPath,
+                         'https://image.tmdb.org/t/p/w200'+ p.posterPath,
                           width: 430.0,
                           height: 500.0,
                           fit: BoxFit.cover,
@@ -46,16 +47,34 @@ class Second extends StatelessWidget {
                 ),
               ],
             ),
-
-            Container(
-              alignment: Alignment.topLeft,
-              padding: new EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Text(p.title,
-                style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent) ),
+              
+            Row(
+              children: [
+                Container(
+                alignment: Alignment.topLeft,
+                width: 250,
+                padding: new EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Text(p.title,
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent) ),
+              ),
+              GestureDetector(
+                  onTap: (){ 
+                   print("object");
+                   AppDatabase().insertMovie(p);
+                  },
+                 child:Container(
+                
+                  padding: new EdgeInsets.fromLTRB(100, 10, 10, 0),
+                  child: Icon(Icons.favorite_border , size: 40,)
+                ),
+              ),
+                
+              ],
+            
             ),
             Container(
                  padding: new EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -71,6 +90,7 @@ class Second extends StatelessWidget {
                               direction: Axis.horizontal,
                              ),
             ),
+            
             
             Row(
               children: [

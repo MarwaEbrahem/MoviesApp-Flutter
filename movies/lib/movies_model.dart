@@ -88,6 +88,28 @@ class Results {
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
   }
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.originalTitle;
+    data['imageURL'] = this.posterPath;
+    data['vote'] = this.voteCount;
+    data['popularity'] = this.popularity;
+    data['release'] = this.releaseDate;
+    data['overView'] = this.overview;
+    return data;
+  }
+
+
+  Results.fromMap(Map<String, dynamic> json) {
+    id = json['id'];
+    originalTitle = json['title'];
+    overview = json['overView'];
+    popularity = json['popularity'];
+    posterPath = json['imageURL'];
+    releaseDate = json['release'];
+    voteCount = json['vote'];
+  }
 
 
 }

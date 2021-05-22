@@ -4,6 +4,8 @@ import 'package:movies/popular.dart';
 import 'package:movies/top_rated.dart';
 import 'package:movies/upcoming_movies.dart';
 
+import 'fav_screen.dart';
+
 
 
 
@@ -21,34 +23,33 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 4,
+        length: 5,
         child: Scaffold(
           appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(icon: Text("NowPlaying",style:
-                                    TextStyle( fontSize: 12))),
-                Tab(icon: Text("UpComing")),
-                Tab(icon: Text("TopRate")),
-                Tab(icon: Text("Popular")),
+              
+              bottom: TabBar(
+                tabs: [
+                  Tab(icon: Text("NowPlaying",style:
+                          TextStyle( fontSize: 11))),
+                  Tab(icon: Text("UpComing",style: TextStyle(fontSize: 11),)),
+                  Tab(icon: Text("TopRate",style: TextStyle(fontSize: 11),)),
+                  Tab(icon: Text("Popular",style: TextStyle(fontSize: 11),)),
+                  Tab(text: "Favourite",)
 
         ],
         ),
         title: Text("Movies"),
         leading: Icon(Icons.arrow_back),
-        actions: [Center(
-                  child: Container(
-             child: Text("Favourit"),
-             padding: new EdgeInsets.fromLTRB(0, 0, 0, 10),
-          ),
-        ), ],
+       
         backgroundColor: Colors.teal,
+         
         ),
         body: TabBarView(children: [
           NowPlaying(),
           Upcoming(),
           TopRated(),
           Popular(),
+          Favourites(),
         ],),
         ),
       )
